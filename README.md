@@ -47,6 +47,7 @@ Do we want to attempt any of the bonuses?
   
 - [ ] Research & model control & switch driver devices.
 
+
 - [ ] Procure major & accessory components including circuit protection, heat sink, connectors, enclosure,
   wire, prototyping materials.
 
