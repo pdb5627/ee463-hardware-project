@@ -31,7 +31,6 @@ get_three_ph_SCR_data;
 fig = figure(1);
 clf('reset');
 plot_VI(S_volts{1, 1}, S_amps{1, 1}, 'S1');
-sgtitle('Thyristor Voltage and Current');
 
 save_figs('Figure_S1_V_I');
 
@@ -39,7 +38,6 @@ save_figs('Figure_S1_V_I');
 fig = figure(2);
 clf('reset');
 plot_VI(Vs, Is, 's');
-sgtitle('Source Voltage and Current');
 
 save_figs('Figure_Src_V_I');
 
