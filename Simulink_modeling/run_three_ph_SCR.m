@@ -1,6 +1,5 @@
-% Set source impedance values just in case they get messed from prev.
-% script run.
-open('three_ph_SCR')
+open('three_ph_SCR');
+
 % Look up parameter names using the following command in MATLAB:
 %   get_param('three_ph_SCR/V.S', 'ObjectParameters')
 % For example, to set the source impedance using short-circuit level:
@@ -16,6 +15,9 @@ open('three_ph_SCR')
 % Set the firing angle
 %   set_param('three_ph_SCR/alpha', 'value', '60');
 
+% Save graphic of model
+print('-sthree_ph_SCR', 'figs/MODEL_three_ph_SCR.svg', '-dsvg');
+
 % Define window of time for plotting since some (negative) simulation time
 % is added for settling to steady state.
 tstart = 0;
@@ -29,13 +31,15 @@ get_three_ph_SCR_data;
 fig = figure(1);
 clf('reset');
 plot_VI(S_volts{1, 1}, S_amps{1, 1}, 'S1');
+sgtitle('Thyristor Voltage and Current');
 
 save_figs('Figure_S1_V_I');
 
-%% Generate Thyristor Voltage & Current Plot
+%% Generate Source Voltage & Current Plot
 fig = figure(2);
 clf('reset');
 plot_VI(Vs, Is, 's');
+sgtitle('Source Voltage and Current');
 
 save_figs('Figure_Src_V_I');
 
