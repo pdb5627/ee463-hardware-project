@@ -21,22 +21,16 @@
     - [Kesla Motors: Melisa, Hande, Özgür](https://github.com/ghandeb/KESLA-Motors/blob/master/HW_Project_KeslaMotors_Melisa_Hande_%C3%96zg%C3%BCr_46616_279732244.pdf): IGBT with Arduino. One of the best project reports I saw.
     - [FNAG: Hakan S, Ceren, Yusuf](https://github.com/hakansrc/EE463-Hardware-Project-team-FNAG/blob/master/Report.docx) IGBT
     - [Ripple Warriors: Eralp, Mahmut Enes](https://github.com/MehmetEralpKose/Ripple-Warriors-Hardware-Project-) MOSFET switch & Arduino controller
-    - [EMAchines: Ümit Mert, Ekin, Asım](https://github.com/caglarmert/EE463-Hardware-Project/blob/master/Reports/EE463_Hardware_Project_Final_Report_EMAchines.pdf): MOSFET with Arduino
+    - [EMAchines: Ümit Mert, Ekin, Asım](https://github.com/caglarmert/EE463-Hardware-Project/blob/master/Reports/EE463_Hardware_Project_Final_Report_EMAchines.pdf): MOSFET with Arduinoguk
     - [THD Defenders: Caner, Uğur, Tuna](https://github.com/caneryagci/EE_463-Hardware-Project/blob/master/EE463%20Hardware%20Project%20Report%20(THD%20Defenders).pdf) IGBT and Arduino
     - [Dank Drivers: Mert, Hakan Polat](https://github.com/hakanpolat/EE463--Dank-Drivers/blob/master/EE463HardwareProject_Report.pdf) IGBT and Arduino
+    - [Ankara Instruments: Emin, Özgür, Talgat](https://github.com/emincinalioglu/Ankara-Instruments/blob/master/EE463-Hardwareproject-report.docx) MOSFET and Arduino
+    - [Shark Attack: Celal, Abdurrahman, Tugay](https://github.com/celalkavlak/EE463_Hardware_Project/blob/master/report/ee463%20term%20project%20report%20of%20design%20and%20test%20results%20Abdurrahman%20Ayd%C4%B1n-Tugay%20Karakaya-%20Celal%20Kavlak.pdf)  MOSFET and Arduino
+    - [Converting Falcons: Cem, Ayberk Kaan, Olgun](https://github.com/OlgunErdogan/Converting_Falcons/blob/master/Converting%20Falcons%20Hardware%20Report.pdf)  MOSFET and Arduino
+    - [Raşit](https://github.com/rasitgokmen/EE463-Project/blob/master/Report/Report%20Included%20Test%20Results_RasitGOKMEN.pdf) MOSFET with discrete solid state controls
 
 ### Dimmer Circuit (allowed in past but not this year)
 - [SPARK Industries](https://github.com/hhintoglu/EE463_Hardware_Project)
-- 
-
-
-### 2017 Teams
-
-- 
-- [Ankara Instruments: Emin, Özgür, Talgat](https://github.com/emincinalioglu/Ankara-Instruments)
-- [Shark Attack: Celal, Abdurrahman, Tugay](https://github.com/celalkavlak/EE463_Hardware_Project)
-- [Converting Falcons: Cem, Ayberk Kaan, Olgun](https://github.com/OlgunErdogan/Converting_Falcons)
-- [Raşit](https://github.com/rasitgokmen/EE463-Project)
 
 
 
