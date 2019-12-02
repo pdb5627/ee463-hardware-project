@@ -29,8 +29,8 @@
     - [Converting Falcons: Cem, Ayberk Kaan, Olgun](https://github.com/OlgunErdogan/Converting_Falcons/blob/master/Converting%20Falcons%20Hardware%20Report.pdf)  MOSFET and Arduino
     - [Raşit](https://github.com/rasitgokmen/EE463-Project/blob/master/Report/Report%20Included%20Test%20Results_RasitGOKMEN.pdf) MOSFET with discrete solid state controls
 
-### Dimmer Circuit (allowed in past but not this year)
-- [SPARK Industries](https://github.com/hhintoglu/EE463_Hardware_Project)
+### Dimmer Circuit
+- [SPARK Industries](https://github.com/hhintoglu/EE463_Hardware_Project/blob/master/Report/EE463_Hardware_Project_Report.pdf) Only usable with series DC motor (universal motor)
 
 
 

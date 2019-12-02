@@ -8,18 +8,18 @@
 % for the numerical integration.
 function [a, b] = fourier(s, f1, nmax)
     num_cycles = (s.Time(end) - s.Time(1))*f1;
-    if num_cycles ~= floor(num_cycles)
+    if abs(num_cycles - round(num_cycles)) > 0.1/nmax
         error('Signal should be integer number of cycles');
     end
     T = 2*pi*num_cycles;
     w = 2*pi*f1;
     wt = w*s.Time;
     f = s.Data;
-    a = zeros(nmax, 1);
-    b = zeros(nmax, 1);
-    for n = 1:nmax
-        a(n) = 2/T*trapz(wt, cos(n*wt).*f);
-        b(n) = 2/T*trapz(wt, sin(n*wt).*f);
+    a = zeros(nmax+1, 1);
+    b = zeros(nmax+1, 1);
+    for n = 0:nmax
+        a(n+1) = 2/T*trapz(wt, cos(n*wt).*f);
+        b(n+1) = 2/T*trapz(wt, sin(n*wt).*f);
     end
 
 end

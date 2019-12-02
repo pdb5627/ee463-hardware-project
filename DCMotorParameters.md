@@ -30,72 +30,110 @@ Some parameters are given directly and can be simply entered into the Simulink m
 
 Directly available parameters:
 
-> Armature resistance and inductance Ra (ohms) and La (H) **= [0.8 0.0125]**  
-> Field resistance and inductance Rf (ohms) and Lf (H) **= [210 23]**  
+> Armature resistance and inductance Ra (Ω) and La (H) **= [0.8 0.0125]**  
+> Field resistance and inductance Rf (Ω) and Lf (H) **= [210 23]**  
 
 Calculable parameters:
 
 *Assuming that the simulation starts with the motor operating at rated speed and voltage.*
 
-> Field-armature mutual inductance Laf (H)  
+> Field-armature mutual inductance Laf (H) **= 1.11 H**  
 > Rated speed (rad/s) = 1500 RPM / (60 s/min) * 2*pi/rotation **= 157 rad/s**  
-> Rated field current (A) = 220 V / 208 ohms **= 1.06 A**
-
-Unknown but required parameters:
-
-> Viscous friction coeffecient Bm (N.m.s)  
-
+> Rated field current (A) = 220 V / 208 Ω **= 1.06 A**
 
 Non-required parameters:
 
 > Viscous friction coeffecient Bm (N.m.s) **= 0**  
-> Coulomb friction torque Tf (N.m) **= 0**  
+> Coulomb friction torque Tf (N.m) **= 2.64**  
 
 The equivalent circuit parameters for the DC motor are the following:
 Vt = Ea + Ia*Ra
-Ea = Ka * phi * wm
-T = Ka * phi * Ia
+Ea = Laf * If * wm
+T = Laf * If * Ia
 
-Ra = 0.8 Ohms.
+Ra = 0.8 Ω.
+
+## Startup
 
 At startup, wm = 0, so Ea = 0.
 
+## Rated Load
+
 Prated = (5.5 HP)*(746 W/HP) = 4103 W. This is at the mechanical output.  
-At rated speed of 157 rad/s, rated torque is (4103 W)/(157 rad/s) = 26.1 N-m.  
+At rated speed of 157 rad/s, rated mechanical torque is  
+(4103 W)/(157 rad/s) = 26.12 N-m.
 
 Rated electrical input is (220 V)*(23.4 A) = 5148 W. So rated efficiency is
-approximately 0.80.
-Resistive losses = (23.4 A)^2 * (0.8 Ohms) = 438 W.
+approximately 0.80.  
+Resistive losses = (23.4 A)^2 * (0.8 Ω) = 438 W.  
+Remaining losses are in the field resistance and friction.
 
-At full load Vt = 220 V and Ea = Vt - Ia*Ra = 220 V - (0.8 Ohms)*(22.4 A)  
+At full load Vt = 220 V and Ea = Vt - Ia * Ra = 220 V - (0.8 Ω)*(22.4 A)  
 = 202 V.
 
-Ka * phi = T/Ia = (26.1 N-m)/(22.4 A) = 1.17  
-Ka * phi = Ea/wm = (202 V)/(157 rad/s) = 1.29
+Since the motor is rated for a shunt configuration,  
+If = 220 V / 210 Ω = 1.05 A
 
-Since the two values for Ka*phi are not exactly the same, my way of using the
-DC motor equations for rated load must not be quite right, but since the
-difference is relatively small, it is at least approximate. In any case, we
-don't really need to use that constant, we can just use Pmech = Ea*Ia.
+Laf = Ea / (If * wm) = (202 V)/(1.05 A * 157 rad/s) = 1.23 H  
+Laf*If = 1.05 A * 1.23 H = 1.29
 
-This assumes rated field current of 1.06 A is applied.
+The electrical torque can be calculated as  
+Ea * Ia / wm = (202 V) * (22.4 A) / (157 rad/s) = 28.76 N-m.
+
+Since the rated output mechanical torque is 26.1 N-m, apparently there
+are additional mechanical torque losses. The simplest is to model them as
+Coulomb friction losses (i.e. constant torque):
+Te - T = 28.76 N-m - 26.12 N-m = 2.64 N-m
+
+At rated speed, this works out to friction loss of  
+2.64 N-m * 157 rad/s = 415 W.
+
+## No Load
+
+At no-load, this friction loss will have the following circuit values:  
+Vt = 220 V  
+Ia*Ea = 415 W  
+Ea = (415 W)/Ia  
+(415 W)/Ia = 220 V - Ia*(0.8 Ω)  
+415 W = (220 V/Ia - Ia^2 * (0.8 Ω)  
+0 = 0.8*Ia^2 - 220*Ia + 2000  
+Ia = (220 - sqrt(220^2 - 4*0.8*415)) / (2*0.8) = 1.9 A.  
+Ea = (415 W)/(1.9 A) = 218 V.
+
+No-load speed can be calculated as
+wm = Ea / (Laf*If) = (218 V)/1.29 = 169 rad/s.  
+This is 169/157 = 108% of rated speed.
+
+## Kettle Load
 
 Based on these numbers, using the motor to drive the AC generator with
 a 1600 W resistive load (water kettle), the DC input will be approximately  
 Vt = 220 V  
-Ia*Ea = 1600 W / 0.8 efficiency = 2000 W estimated on mechanical side  
-Ea = (2000 W)/Ia  
-(2000 W)/Ia = 220 V - Ia*(0.8 Ohms)  
-2000 W = (220 V)*Ia - Ia^2 * (0.8 Ohms)  
+Ia*Ea = 1600 W + 415 W = 2015 W estimated on mechanical side  
+Ea = (2015 W)/Ia  
+(2015 W)/Ia = 220 V - Ia*(0.8 Ω)  
+2015 W = (220 V)*Ia - Ia^2 * (0.8 Ω)  
 0 = 0.8*Ia^2 - 220*Ia + 2000  
-Ia = (220 + sqrt(220**2 - 4(0.8)(2000))) / (2*0.8) = 9.4 A or 266 A.  
-The logical solution is 9.4 A.  
-Ea = (2000 W)/(9.4 A) = 213 V.
+Ia = (220 - sqrt(220**2 - 4(0.8)(2015))) / (2*0.8) = 9.5 A.  
+Ea = (2015 W)/(9.5 A) = 212 V.
 
 Since the kettle is less than full load, the motor will operate at higher
 than rated speed if the rated voltage is applied.
 
-wm = Ea / (Ka*phi) = (213 V)/1.29 = 165 rad/s. This is 165/157 = 105% of
-rated speed.
+wm = Ea / (Laf*If) = (213 V)/1.29 = 165 rad/s.  
+This is 165/157 = 105% of rated speed.
+
+At wm = 165 rad/s, the estimated 1600 W mechanical load will have a torque
+of T = P/wm = (1600 W) / (165 rad/s) = 9.7 N-m.
+
+## Armature Inductive Time Constant
+
+Time constant of current in the armature circuit will be  
+L/R = (12.5 mH) / (0.8 Ω) = 15.6 ms
+
+The time constant is a little less than one electrical cycle, so if driven by
+a full-wave rectifier, the circuit should conduct continuously. Even if
+driven by a a half-wave rectifier, unless the conducting current level is low
+(near the holding current of thyristor), it is likely to conduct continuously.
 
 

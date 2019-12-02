@@ -1,0 +1,5 @@
+Load,alpha,V_OUT_AVG,V_O_Ripple,I_OUT_AVG,I_O_Ripple,P_OUT,Efficiency
+Starting,87,12.49,337.1,14.62,12.34,187.6,69.36
+No Load,54.0,220.5,208,3.077,5.73,682.1,98.6
+Kettle Load,47.5,220.2,249.1,9.675,9.18,2136,98.05
+Rated Load,47.2,219.7,247.5,21.11,9.575,4643,98.15

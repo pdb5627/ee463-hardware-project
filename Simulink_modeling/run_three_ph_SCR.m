@@ -1,69 +1,111 @@
-open('three_ph_SCR');
-
-% Look up parameter names using the following command in MATLAB:
-%   get_param('three_ph_SCR/V.S', 'ObjectParameters')
-% For example, to set the source impedance using short-circuit level:
-%   set_param('three_ph_SCR/V.S', 'Voltage', '220*sqrt(3)')
-%   set_param('three_ph_SCR/V.S', 'SpecifyImpedance', 'on');
-%   set_param('three_ph_SCR/V.S', 'ShortCircuitLevel', 'sqrt(3)*220*2000');
-%   set_param('three_ph_SCR/V.S', 'BaseVoltage', '220*sqrt(3)');
-%   set_param('three_ph_SCR/V.S', 'XRratio', '1');
-% Or using resistance and reactance:
-%   set_param('three_ph_SCR/V.S', 'SpecifyImpedance', 'off');
-%   set_param('three_ph_SCR/V.S', 'Resistance', '0.1');
-%   set_param('three_ph_SCR/V.S', 'Reactance', '0.1');
-% Set the firing angle
-%   set_param('three_ph_SCR/alpha', 'value', '60');
-
-% Save graphic of model
-print('-sthree_ph_SCR', 'figs/MODEL_three_ph_SCR.svg', '-dsvg');
-
+%% Setup
 % Define window of time for plotting since some (negative) simulation time
 % is added for settling to steady state.
 tstart = 0;
-tstop = 0.02;
+tstop = 0.020;
 
-%% Run the simulation and get the output into variables
-t = sim('three_ph_SCR');
-get_three_ph_SCR_data;
+% Scenario list has description, alpha, and Ea for each of the scenarios
+% to be simulated. Ea assumes operation at Vt = 220 V.
+scenarios = { ...
+    'Starting', '87', '0';
+    'No Load', '54.0', '218'; ...
+    'Kettle Load', '47.5', '212'; ...
+    'Rated Load', '47.2', '202'};
 
-%% Generate Thyristor Voltage & Current Plot
+VariableNames = {'Load', 'alpha', 'V_IN_RMS', 'I_IN_RMS', ...
+    'P_IN', 'Q_IN', 'S_IN', 'PF', 'I_IN_THD_F'};
+TIN = table('Size', [length(scenarios), length(VariableNames)], ...
+    'VariableTypes', [{'string', 'string'}, repmat({'double'}, 1, length(VariableNames)-2)], ...
+    'VariableNames', VariableNames);
+TIN{:, 1:2} = scenarios(:, 1:2);
+
+VariableNames = {'Load', 'alpha', 'V_OUT_AVG', 'V_O_Ripple', 'I_OUT_AVG', ...
+    'I_O_Ripple', 'P_OUT', 'Efficiency'};
+TOUT = table('Size', [length(scenarios), length(VariableNames)], ...
+    'VariableTypes', [{'string', 'string'}, repmat({'double'}, 1, length(VariableNames)-2)], ...
+    'VariableNames', VariableNames);
+TOUT{:, 1:2} = scenarios(:, 1:2);
+
+VariableNames = {'Load', 'alpha', 'I_AVG', 'I_RMS', 'V_MAX_REV', 'V_MAX_FWD', ...
+    'P_LOSS'};
+TTHY = table('Size', [length(scenarios), length(VariableNames)], ...
+    'VariableTypes', [{'string', 'string'}, repmat({'double'}, 1, length(VariableNames)-2)], ...
+    'VariableNames', VariableNames);
+TTHY{:, 1:2} = scenarios(:, 1:2);
+
+
 fig = figure(1);
 clf('reset');
-plot_VI(S_volts{1, 1}, S_amps{1, 1}, 'S1');
 
-save_figs('Figure_S1_V_I');
-
-%% Generate Source Voltage & Current Plot
-fig = figure(2);
-clf('reset');
-plot_VI(Vs, Is, 's');
-
-save_figs('Figure_Src_V_I');
+%% Open model. Same model for all cases
+model = 'three_ph_SCR';
+open(model);
+% Save graphic of model
+print(strcat('-s', model), strcat('figs/MODEL_', model, '.png'), '-dpng');
 
 
-% Calculate and print various quantities
-display(mean2(Vd), 'Average Vd');
-display(mean2(Id), 'Average Id');
-Pout = mean2(Vd*Id);
-display(Pout, 'Avg output power');
-display((max(Vd) - min(Vd))*2 / (max(Vd) + min(Vd))*100, 'Output voltage ripple (%)');
-display((max(Id) - min(Id))*2 / (max(Id) + min(Id))*100, 'Output current ripple (%)');
+for n = 1:length(scenarios)
+    %% Set up model
+    set_param(strcat(model, '/alpha'), 'value', scenarios{n, 2});
+    set_param(strcat(model, '/Ea'), 'Amplitude', scenarios{n, 3});
 
-Pin = mean2(Vs_a*Is_a + Vs_b*Is_b + Vs_c*Is_c);
-display(Pin, 'Avg input power');
-display(PF(Vs_a, Is_a), 'Input power factor (ph A)');
-display(PF(Vs_b, Is_b), 'Input power factor (ph B)');
-display(PF(Vs_c, Is_c), 'Input power factor (ph C)');
+    %% Run the simulation and get the output into variables
+    sim(model);
+    
+    % Get simulation output data
+    Vs = logsout.get('Vs').Values.resample(tstart).append(getsampleusingtime(logsout.get('Vs').Values(1), tstart, tstop));
+    Vs.Data = Vs.Data(:, 1);
+    Is = logsout.get('Is').Values(1).resample(tstart).append(getsampleusingtime(logsout.get('Is').Values(1), tstart, tstop));
+    Is.Data = Is.Data(:, 1);
+    Vd = logsout.get('Vd').Values.resample(tstart).append(getsampleusingtime(logsout.get('Vd').Values, tstart, tstop));
+    %Id = logsout.get('Id').Values.resample(tstart).append(getsampleusingtime(logsout.get('Id').Values, tstart, tstop));
+    Vl = logsout.get('Vl').Values.resample(tstart).append(getsampleusingtime(logsout.get('Vl').Values, tstart, tstop));
+    Il = logsout.get('Il').Values.resample(tstart).append(getsampleusingtime(logsout.get('Il').Values, tstart, tstop));
+    Vthy = logsout.get('S1').Values.Thyristor_voltage.resample(tstart).append(getsampleusingtime(logsout.get('S1').Values.Thyristor_voltage, tstart, tstop));
+    Ithy = logsout.get('S1').Values.Thyristor_current.resample(tstart).append(getsampleusingtime(logsout.get('S1').Values.Thyristor_current, tstart, tstop));
 
-display(max(abs(S_volts{1, 1}.Data)), 'Max thyristor voltage');
-display(mean2(S_amps{1, 1}), 'Avg thyristor current');
-display(RMS(S_amps{1, 1}), 'RMS thyristor current');
-display(mean2(S_volts{1, 1}*S_amps{1, 1}), 'Avg thyristor power (W / thyristor)');
-display(Pin - Pout, 'Total losses (Pout - Pin)');
-Ploss_thryistors = 0;
-for n = 1:6
-   Ploss_thryistors = Ploss_thryistors + mean2(S_volts{n, 1}*S_amps{n, 1});
+    %% Calculate summary values
+    TIN.V_IN_RMS(n) = RMS(Vs);
+    TIN.I_IN_RMS(n) = RMS(Is);
+    TIN.P_IN(n) = mean2(Vs*Is);
+    TIN.S_IN(n) = TIN.V_IN_RMS(n)*TIN.I_IN_RMS(n);
+    TIN.Q_IN(n) = sqrt(TIN.S_IN(n)^2 - TIN.P_IN(n)^2);
+    TIN.PF(n) = TIN.P_IN(n) / TIN.S_IN(n);
+    %TIN.phi(n) = rad2deg(acos(T.PF(n)));
+    TIN.I_IN_THD_F(n) = THD(Is, 50)*100;
+    
+    TOUT.V_OUT_AVG(n) = mean2(Vl);
+    TOUT.V_O_Ripple(n) = max(Vl) - min(Vl);
+    TOUT.I_OUT_AVG(n) = mean2(Il);
+    TOUT.I_O_Ripple(n) = max(Il) - min(Il);
+    TOUT.P_OUT(n) = mean2(Vl*Il);
+    TOUT.Efficiency(n) = TOUT.P_OUT(n) ./ (3*TIN.P_IN(n)) * 100;
+    
+    TTHY.I_AVG(n) = mean2(Ithy);
+    TTHY.I_RMS(n) = RMS(Ithy);
+    TTHY.V_MAX_REV(n) = -1*min(Vthy);
+    TTHY.V_MAX_FWD(n) = max(Vthy);
+    TTHY.P_LOSS(n) = mean2(Vthy*Ithy);
+        
+    display(n, 'Scenario');
+    display(TOUT.V_OUT_AVG(n), 'Average output voltage');
+    % Check output voltage. If it's too far off, the calcs won't be
+    % accurate.
+    if n > 1 && abs(TOUT.V_OUT_AVG(n) - 220) > 1
+        disp('Check firing angle!!');
+        
+    end
+    
+    %% Load Voltage & Current Plot
+    figure(1);
+    plot_VI(Vl, Il, scenarios{n, 1});
+    
+
 end
-display(Ploss_thryistors, 'Total losses (sum of thyristors)');
-display(Pout/Pin * 100, 'Converter efficiency (%)');
+
+figure(1);
+save_figs('3ph_SCR_output_vi');
+
+save_table(TIN, '3ph_SCR_summary_in', 'Simulation Summary (Input Side)');
+save_table(TOUT, '3ph_SCR_summary_out', 'Simulation Summary (Output Side)');
+save_table(TTHY, '3ph_SCR_Thyristor', 'Thyristor Key Values');

@@ -13,18 +13,26 @@ height = width*2/3;    % Height in inches
 pos = get(gcf, 'Position');
 set(gcf, 'Position', [pos(1), pos(2) - height + pos(4), width, height]); %<- Set size
 
-subplot(2, 1, 1);
+ax = subplot(2, 1, 1);
 set(gca, 'FontSize', fsz, 'LineWidth', alw); %<- Set properties
 set(gca, 'YGrid', 'on');
 set(gca, 'XGrid', 'on');
 hold on;
 
-plot(V, 'LineWidth', lw);
+plot(V, 'LineWidth', lw, 'DisplayName', strcat('V_{', label, '}'));
 sz = size(V.Data);
-if sz(2) == 3
-    l = legend({strcat('V_{', label, ',a}'), strcat('V_{', label, ',b}'), strcat('V_{', label, ',c}')}, 'Location', 'bestoutside');
+% Save existing legend data if any, and add to it
+if isa(ax.Legend, 'matlab.graphics.GraphicsPlaceholder')
+    ls = {};
 else
-    l = legend({strcat('V_{', label, '}')}, 'Location', 'bestoutside');
+    ls = ax.Legend.String;
+    legend('off');
+end
+if sz(2) == 3
+    l = legend(horzcat(ls, {strcat('V_{', label, ',a}'), strcat('V_{', label, ',b}'), strcat('V_{', label, ',c}')}), 'Location', 'bestoutside');
+else
+    l = legend('Location', 'bestoutside');
+    %l = legend(horzcat(ls, {strcat('V_{', label, '}')}), 'Location', 'bestoutside');
 end
 xlabel('t (s)');
 ylabel('Voltage (V)');
@@ -36,12 +44,13 @@ set(gca, 'YGrid', 'on');
 set(gca, 'XGrid', 'on');
 hold on;
 
-plot(I, 'LineWidth', lw);
+plot(I, 'LineWidth', lw, 'DisplayName', strcat('I_{', label, '}'));
 sz = size(I.Data);
 if sz(2) == 3
     l = legend({strcat('I_{', label, ',a}'), strcat('I_{', label, ',b}'), strcat('I_{', label, ',c}')}, 'Location', 'bestoutside');
 else
-    l = legend({strcat('I_{', label, '}')}, 'Location', 'bestoutside');
+    l = legend('Location', 'bestoutside');
+    %l = legend({strcat('I_{', label, '}')}, 'Location', 'bestoutside');
 end
 xlabel('t (s)');
 ylabel('Current (A)');
