@@ -88,40 +88,47 @@ Te - T = 28.76 N-m - 26.12 N-m = 2.64 N-m
 At rated speed, this works out to friction loss of  
 2.64 N-m * 157 rad/s = 415 W.
 
-## No Load
+## No Load, Vt = 175 V
 
 At no-load, this friction loss will have the following circuit values:  
-Vt = 220 V  
-Ia*Ea = 415 W  
-Ea = (415 W)/Ia  
-(415 W)/Ia = 220 V - Ia*(0.8 Ω)  
-415 W = (220 V/Ia - Ia^2 * (0.8 Ω)  
-0 = 0.8*Ia^2 - 220*Ia + 415  
-Ia = (220 - sqrt(220^2 - 4*0.8*415)) / (2*0.8) = 1.9 A.  
-Ea = (415 W)/(1.9 A) = 218 V.
+Vt = 175 V  
+
+Neglecting voltage drop on the armature winding such that Ea = Vt,
+speed can be estimated as  
+Ea / (Laf * wm) = 175 V / 1.29 = 136 rad/s
+
+Friction losses can be estimated as  
+2.65 N-m * 136 rad/s = 360 W.
+
+Estimating additionally that the connected synchronous maching has a similar
+amount of friction, the total "no load" load is estimated as 700 W.
+Ia*Ea = 700 W  
+Ea = (700 W)/Ia  
+(700 W)/Ia = 175 V - Ia*(0.8 Ω)  
+700 W = (175 V/Ia - Ia^2 * (0.8 Ω)  
+0 = 0.8*Ia^2 - 175*Ia + 700  
+Ia = (175 - sqrt(175^2 - 4*0.8*700)) / (2*0.8) = 4.1 A.  
+Ea = (700 W)/(4.1 A) = 171 V.
 
 No-load speed can be calculated as
-wm = Ea / (Laf*If) = (218 V)/1.29 = 169 rad/s.  
-This is 169/157 = 108% of rated speed.
+wm = Ea / (Laf*If) = (171 V)/1.29 = 133 rad/s.  
+This is 133/157 = 85% of rated speed.
 
-## Kettle Load
+## Kettle Load, Vt = 175 V
 
 Based on these numbers, using the motor to drive the AC generator with
 a 1600 W resistive load (water kettle), the DC input will be approximately  
-Vt = 220 V  
-Ia*Ea = 1600 W + 415 W = 2015 W estimated on mechanical side  
-Ea = (2015 W)/Ia  
-(2015 W)/Ia = 220 V - Ia*(0.8 Ω)  
-2015 W = (220 V)*Ia - Ia^2 * (0.8 Ω)  
-0 = 0.8*Ia^2 - 220*Ia + 2015  
-Ia = (220 - sqrt(220**2 - 4(0.8)(2015))) / (2*0.8) = 9.5 A.  
-Ea = (2015 W)/(9.5 A) = 212 V.
+Vt = 175 V  
+Ia*Ea = 1600 W + 700 W = 2300 W estimated on mechanical side  
+Ea = (2300 W)/Ia  
+(2300 W)/Ia = 175 V - Ia*(0.8 Ω)  
+2300 W = (175 V)*Ia - Ia^2 * (0.8 Ω)  
+0 = 0.8*Ia^2 - 175*Ia + 2300  
+Ia = (175 - sqrt(175**2 - 4(0.8)(2300))) / (2*0.8) = 14.0 A.  
+Ea = (2300 W)/(14.0 A) = 164 V.
 
-Since the kettle is less than full load, the motor will operate at higher
-than rated speed if the rated voltage is applied.
+wm = Ea / (Laf*If) = (164 V)/1.29 = 127 rad/s.  
+This is 127/157 = 81% of rated speed.
 
-wm = Ea / (Laf*If) = (212 V)/1.29 = 165 rad/s.  
-This is 165/157 = 105% of rated speed.
-
-At wm = 165 rad/s, the estimated 1600 W mechanical load will have a torque
-of T = P/wm = (1600 W) / (165 rad/s) = 9.7 N-m.
+At wm = 127 rad/s, the estimated 1950 W external mechanical load will have a torque
+of T = P/wm = (1950 W) / (127 rad/s) = 15.4 N-m.
