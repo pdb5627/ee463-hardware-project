@@ -5,12 +5,13 @@ tstart = 0;
 tstop = 0.020;
 
 % Scenario list has description, alpha, and Ea for each of the scenarios
-% to be simulated. Ea assumes operation at Vt = 220 V.
+% to be simulated. Ea assumes operation at vd_nom.
 scenarios = { ...
     'Starting', '4', '0';
-    'No Load', '18', '218'; ...
-    'Kettle Load', '32', '212'; ...
-    'Rated Load', '51.3', '202'};
+    'No Load', '25', '171'; ...
+    'Kettle Load', '41', '164'; ...
+    'Rated Load', '75', '202'};
+vd_nom = [0, 175, 175, 220];
 
 VariableNames = {'Load', 'D', 'V_IN_RMS', 'I_IN_RMS', ...
     'P_IN', 'Q_IN', 'S_IN', 'PF', 'I_IN_THD_F'};
@@ -66,12 +67,19 @@ for n = 1:length(scenarios)
     %% Set up model
     set_param(strcat(model, '/PWM'), 'PulseWidth', scenarios{n, 2});
     set_param(strcat(model, '/Ea'), 'Amplitude', scenarios{n, 3});
-    if n == 1
-        set_param(strcat(model, '/C2'), 'InitialVoltage', '16');
-        set_param(strcat(model, '/Za'), 'InitialCurrent', '20');
-    else
-        set_param(strcat(model, '/C2'), 'InitialVoltage', '220');
-        set_param(strcat(model, '/Za'), 'InitialCurrent', '10');
+    switch n
+        case 1
+            set_param(strcat(model, '/C2'), 'InitialVoltage', '10.8');
+            set_param(strcat(model, '/Za'), 'InitialCurrent', '13.5');
+        case 2
+            set_param(strcat(model, '/C2'), 'InitialVoltage', '175');
+            set_param(strcat(model, '/Za'), 'InitialCurrent', '5.7');
+        case 3
+            set_param(strcat(model, '/C2'), 'InitialVoltage', '175');
+            set_param(strcat(model, '/Za'), 'InitialCurrent', '16');
+        case 4
+            set_param(strcat(model, '/C2'), 'InitialVoltage', '220');
+            set_param(strcat(model, '/Za'), 'InitialCurrent', '16');
     end
 
     %% Run the simulation and get the output into variables
@@ -136,7 +144,7 @@ for n = 1:length(scenarios)
     display(TOUT.V_OUT_AVG(n), 'Average output voltage');
     % Check output voltage. If it's too far off, the calcs won't be
     % accurate.
-    if n > 1 && abs(TOUT.V_OUT_AVG(n) - 220) > 1
+    if n > 1 && abs(TOUT.V_OUT_AVG(n) - vd_nom(n)) > 1
         disp('Check duty cycle!!');
         
     end
