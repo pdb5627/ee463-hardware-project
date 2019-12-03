@@ -96,7 +96,7 @@ Ia*Ea = 415 W
 Ea = (415 W)/Ia  
 (415 W)/Ia = 220 V - Ia*(0.8 Ω)  
 415 W = (220 V/Ia - Ia^2 * (0.8 Ω)  
-0 = 0.8*Ia^2 - 220*Ia + 2000  
+0 = 0.8*Ia^2 - 220*Ia + 415  
 Ia = (220 - sqrt(220^2 - 4*0.8*415)) / (2*0.8) = 1.9 A.  
 Ea = (415 W)/(1.9 A) = 218 V.
 
@@ -113,27 +113,15 @@ Ia*Ea = 1600 W + 415 W = 2015 W estimated on mechanical side
 Ea = (2015 W)/Ia  
 (2015 W)/Ia = 220 V - Ia*(0.8 Ω)  
 2015 W = (220 V)*Ia - Ia^2 * (0.8 Ω)  
-0 = 0.8*Ia^2 - 220*Ia + 2000  
+0 = 0.8*Ia^2 - 220*Ia + 2015  
 Ia = (220 - sqrt(220**2 - 4(0.8)(2015))) / (2*0.8) = 9.5 A.  
 Ea = (2015 W)/(9.5 A) = 212 V.
 
 Since the kettle is less than full load, the motor will operate at higher
 than rated speed if the rated voltage is applied.
 
-wm = Ea / (Laf*If) = (213 V)/1.29 = 165 rad/s.  
+wm = Ea / (Laf*If) = (212 V)/1.29 = 165 rad/s.  
 This is 165/157 = 105% of rated speed.
 
 At wm = 165 rad/s, the estimated 1600 W mechanical load will have a torque
 of T = P/wm = (1600 W) / (165 rad/s) = 9.7 N-m.
-
-## Armature Inductive Time Constant
-
-Time constant of current in the armature circuit will be  
-L/R = (12.5 mH) / (0.8 Ω) = 15.6 ms
-
-The time constant is a little less than one electrical cycle, so if driven by
-a full-wave rectifier, the circuit should conduct continuously. Even if
-driven by a a half-wave rectifier, unless the conducting current level is low
-(near the holding current of thyristor), it is likely to conduct continuously.
-
-
