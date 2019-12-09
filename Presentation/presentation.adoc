@@ -1,0 +1,73 @@
+include::_settings_reveal.adoc[]
+
+// include::_settings_deck.adoc[]
+
+= Hardware Project Design
+:imagesdir: ../Simulink_modeling/figs/
+
+== Topology Options
+
+. Three-phase thyristor rectifier (SCR) 
+. Three-phase diode rectifier + buck converter
+. Single-phase thyristor rectifier (SCR)
+. Single-Phase Diac-Controlled Triac Rectifer
+
+
+== Option 1: Three-phase Thyristor Rectifier (SCR)
+
+image::MODEL_three_ph_SCR.png[Circuit diagram]
+
+ifdef::backend-revealjs[=== !]
+
+[.two-col]
+.Advantages
+- Higher average output voltage attainable
+- Less ripple compared to single-phase rectifier
+
+.Disadvantages
+- Requires firing circuits for six thyristors
+- Firing control must be synchronized with input AC voltage
+
+== Option 2: Diode Rectifier + Buck Converter
+
+image::MODEL_three_ph_rect_buck.png[Circuit diagram]
+
+ifdef::backend-revealjs[=== !]
+
+[.two-col]
+.Advantages
+- Fast and accurate control of output is possible
+
+.Disadvantages
+- Requires capacitor & inductor
+- Many components
+
+== Option 3: Single-phase Thyristor Rectifier (SCR)
+
+image::MODEL_single_ph_SCR[Circuit diagram]
+
+ifdef::backend-revealjs[=== !]
+
+[.two-col]
+.Advantages
+- Fewer thyristors compared to three-phase (4 vs 6)
+
+.Disadvantages
+- Available output voltage is less compared to three-phase AC input
+- Still requires firing circuits for four thyristors
+- Firing control must be synchronized with input AC voltage
+
+
+== Single-Phase Diac-Controlled Triac Rectifer
+
+image::MODEL_triac_diac.png[Circuit diagram]
+
+ifdef::backend-revealjs[=== !]
+
+[.two-col]
+.Advantages
+- Circuit is very simple with few components
+- 
+
+.Disadvantages
+- Introduction of feedback control difficult to incorporate
