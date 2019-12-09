@@ -1,11 +1,9 @@
-
-include::_settings_reveal.adoc[]
-
-// include::_settings_deck.adoc[]
-
-= Hardware Project Design
-:doctype: slides
+= Blue Smoke Team Hardware Project Design
+Paul Brown; İbrahim Duru; Mustafa Şahin
+11 December 2019
 :titlepage:
+:pdf-theme: presentation-theme.yml
+:table-stripes: even
 :imagesdir: ../Simulink_modeling/figs/
 
 == Topology Options
@@ -15,70 +13,99 @@ include::_settings_reveal.adoc[]
 . Single-phase thyristor rectifier (SCR)
 . Single-Phase Diac-Controlled Triac Rectifer
 
-
+<<<
 == Option 1: Three-phase Thyristor Rectifier (SCR)
 
-image::MODEL_three_ph_SCR.png[Circuit diagram]
+image::MODEL_three_ph_SCR.png[Circuit diagram, pdfwidth=100%]
 
-ifdef::backend-revealjs[== Option 1: Three-phase Thyristor Rectifier (SCR)]
+<<<
+== Option 1: Three-phase Thyristor Rectifier (SCR)
 
-.Advantages
+[cols="2*a", options="header"]
+|===
+|Advantages|Disadvantages
+|
 - Higher average output voltage attainable
 - Less ripple compared to single-phase rectifier
-
-.Disadvantages
+|
 - Requires firing circuits for six thyristors
 - Firing control must be synchronized with input AC voltage
+|===
 
+<<<
 == Option 2: Diode Rectifier + Buck Converter
 
-image::MODEL_three_ph_rect_buck.png[Circuit diagram]
+image::MODEL_three_ph_rect_buck.png[Circuit diagram, pdfwidth=100%]
 
-ifdef::backend-revealjs[== Option 2: Diode Rectifier + Buck Converter]
+<<<
+== Option 2: Diode Rectifier + Buck Converter
 
-.Advantages
+[cols="2*a", options="header"]
+|===
+|Advantages|Disadvantages
+|
 - Fast and accurate control of output is possible
-
-.Disadvantages
+|
 - Requires capacitor & inductor
 - Many components
+|===
 
+<<<
 == Option 3: Single-phase Thyristor Rectifier (SCR)
 
-image::MODEL_three_ph_SCR.png[Circuit diagram]
+image::MODEL_three_ph_SCR.png[Circuit diagram, pdfwidth=100%]
 
-ifdef::backend-revealjs[== Option 3: Single-phase Thyristor Rectifier (SCR)]
+<<<
+== Option 3: Single-phase Thyristor Rectifier (SCR)
 
-.Advantages
+[cols="2*a", options="header"]
+|===
+|Advantages|Disadvantages
+|
 - Fewer thyristors compared to three-phase (4 vs 6)
-
-.Disadvantages
+|
 - Available output voltage is less compared to three-phase AC input
 - Still requires firing circuits for four thyristors
 - Firing control must be synchronized with input AC voltage
+|===
 
-
+<<<
 == Single-Phase Diac-Controlled Triac Rectifer
 
-image::MODEL_triac_diac.png[Circuit diagram]
+.Circuit Diagram from Littlefuse Application Note AN1003
+image::Littlefuse_Diagram.png[Diagram from Littlefuse Application note, pdfwidth=50%]
 
-ifdef::backend-revealjs[== Single-Phase Diac-Controlled Triac Rectifer]
+<<<
+== Single-Phase Diac-Controlled Triac Rectifer
 
-.Advantages
+image::MODEL_triac_diac.png[Circuit diagram, pdfwidth=65%]
+
+<<<
+== Single-Phase Diac-Controlled Triac Rectifer
+
+// Recommendation from prof to WhatsApp group - add screenshot?
+
+[cols="2*a", options="header"]
+|===
+|Advantages|Disadvantages
+|
 - Circuit is very simple with few components
-- 
-
-.Disadvantages
+- Single control circuit needed
+|
 - Introduction of feedback control difficult to incorporate
+|===
 
+<<<
 == Simulation Results
 
-image::Figure_triac_diac_small_Rload.png[Small Resistive Load]
+image::Figure_triac_diac_small_Rload.png[Small Resistive Load, pdfwidth=65%]
 
-ifdef::backend-revealjs[== Simulation Results]
+<<<
+== Simulation Results
 
-image::Figure_triac_diac_output_vi.png[Motor Load]
+image::Figure_triac_diac_output_vi.png[Motor Load, pdfwidth=65%]
 
+<<<
 == Key Component Ratings
 
 Maximum component stress from simulation results
@@ -90,3 +117,15 @@ Maximum component stress from simulation results
 - Resistors: All < 1/4 W. (But Littlefuse application note recommends 1/2 W for R~3~)
 
 - Capacitors: < 60 V
+
+<<<
+== Project Plan
+
+- Complete bill of material
+- Procure components (https://direnc.net[Direnc.net] + Konya Sokak)
+- Build prototype
+- Test on increasing loads (load bank then motor)
+- Troubleshoot & modify prototype as needed
+- Once working prototype is obtained, as time allows
+  * Consider modifications for feedback in firing circuit
+  * Add remaining touches like enclosure, PCB, etc
