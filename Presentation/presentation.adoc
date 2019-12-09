@@ -1,8 +1,11 @@
+
 include::_settings_reveal.adoc[]
 
 // include::_settings_deck.adoc[]
 
 = Hardware Project Design
+:doctype: slides
+:titlepage:
 :imagesdir: ../Simulink_modeling/figs/
 
 == Topology Options
@@ -17,9 +20,8 @@ include::_settings_reveal.adoc[]
 
 image::MODEL_three_ph_SCR.png[Circuit diagram]
 
-ifdef::backend-revealjs[=== !]
+ifdef::backend-revealjs[== Option 1: Three-phase Thyristor Rectifier (SCR)]
 
-[.two-col]
 .Advantages
 - Higher average output voltage attainable
 - Less ripple compared to single-phase rectifier
@@ -32,9 +34,8 @@ ifdef::backend-revealjs[=== !]
 
 image::MODEL_three_ph_rect_buck.png[Circuit diagram]
 
-ifdef::backend-revealjs[=== !]
+ifdef::backend-revealjs[== Option 2: Diode Rectifier + Buck Converter]
 
-[.two-col]
 .Advantages
 - Fast and accurate control of output is possible
 
@@ -44,11 +45,10 @@ ifdef::backend-revealjs[=== !]
 
 == Option 3: Single-phase Thyristor Rectifier (SCR)
 
-image::MODEL_single_ph_SCR[Circuit diagram]
+image::MODEL_three_ph_SCR.png[Circuit diagram]
 
-ifdef::backend-revealjs[=== !]
+ifdef::backend-revealjs[== Option 3: Single-phase Thyristor Rectifier (SCR)]
 
-[.two-col]
 .Advantages
 - Fewer thyristors compared to three-phase (4 vs 6)
 
@@ -62,12 +62,31 @@ ifdef::backend-revealjs[=== !]
 
 image::MODEL_triac_diac.png[Circuit diagram]
 
-ifdef::backend-revealjs[=== !]
+ifdef::backend-revealjs[== Single-Phase Diac-Controlled Triac Rectifer]
 
-[.two-col]
 .Advantages
 - Circuit is very simple with few components
 - 
 
 .Disadvantages
 - Introduction of feedback control difficult to incorporate
+
+== Simulation Results
+
+image::Figure_triac_diac_small_Rload.png[Small Resistive Load]
+
+ifdef::backend-revealjs[== Simulation Results]
+
+image::Figure_triac_diac_output_vi.png[Motor Load]
+
+== Key Component Ratings
+
+Maximum component stress from simulation results
+
+- Triac: V~max~ = 311 V, I~rms~ = 17.6 A
+
+- Diode Bridge: V~max~ = 306 V, I~rms~ = 12.5 A (per diode)
+
+- Resistors: All < 1/4 W. (But Littlefuse application note recommends 1/2 W for R~3~)
+
+- Capacitors: < 60 V
