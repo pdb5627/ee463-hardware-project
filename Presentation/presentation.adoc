@@ -153,7 +153,7 @@ Ripple
 
 
 <<<
-== Simulation Key Diode Values
+== Diode Selection
 
 [cols="5*^", options="header"]
 |===
@@ -191,7 +191,7 @@ https://www.direnc.net/35a-1000v-kopru-diyot-lehimlemeye-uygun[Diode bridge, 100
 image::35a-1000v-diode-bridge.jpg[align=left, pdfwidth=25%]
 
 <<<
-== Simulation Key Triac Values
+== Triac Selection
 
 [cols="5*^", options="header"]
 |===
@@ -229,7 +229,7 @@ https://www.direnc.net/bta26-600--600v-25a-4-quadrant-logic-level-triac[Triac 60
 image::bta26-600-600v-25a-triac.jpg[align=left, pdfwidth=25%]
 
 <<<
-== Simulation Key Capacitor Values
+== Capacitor Selection
 [cols="5*^", options="header"]
 |===
 |Load
@@ -268,7 +268,7 @@ https://www.direnc.net/100nf400v-damla-tip-polyster-kondansator[Capacitor, polye
 image::100nf400v-capacitor.jpg[align=left, pdfwidth=20%]
 
 <<<
-== Simulation Key Resistor Values
+== Resistor Selection
 [cols="7*^", options="header"]
 |===
 |Load
@@ -323,6 +323,16 @@ All < 1/4 W. (But Littlefuse application note recommends 1/2 W for R~3~)
 - Once working prototype is obtained, as time allows
   * Consider modifications for feedback in firing circuit
   * Add remaining touches like enclosure, PCB, etc
+  
+<<<
+== Feedback
+
+How can we incorporate feedback (e.g. to limit current during motor starting)?
+
+- Maybe use a TCA785 IC & some op amp circuit to modify voltage setpoint based on feedback?
+- Other ideas?
+
+What is your feedback for us?
   
 <<<
 == Credits
