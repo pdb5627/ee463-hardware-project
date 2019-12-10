@@ -4,12 +4,13 @@ Paul Brown; İbrahim Duru; Mustafa Şahin
 :notitle:
 :pdf-theme: presentation-theme.yml
 :table-stripes: even
-:imagesdir: ../Simulink_modeling/figs/
+:imagesdir: Graphics
+:simulation_figs: ../../Simulink_modeling/figs/
 
 // Title Slide
-image::../../Presentation/Title Slide.pdf[]
+image::Title Slide.pdf[]
 
-== Topology Options
+== Topology Options Considered
 
 . Three-phase thyristor rectifier (SCR) 
 . Three-phase diode rectifier + buck converter
@@ -17,110 +18,299 @@ image::../../Presentation/Title Slide.pdf[]
 . Single-Phase Diac-Controlled Triac Rectifer
 
 <<<
-== Option 1: Three-phase Thyristor Rectifier (SCR)
+== Single-Phase Diac-Controlled Triac Rectifer
 
-image::MODEL_three_ph_SCR.png[Circuit diagram, pdfwidth=100%]
-
-<<<
-== Option 1: Three-phase Thyristor Rectifier (SCR)
-
-[cols="2*a", options="header"]
-|===
-|Advantages|Disadvantages
-|
-- Higher average output voltage attainable
-- Less ripple compared to single-phase rectifier
-|
-- Requires firing circuits for six thyristors
-- Firing control must be synchronized with input AC voltage
-|===
-
-<<<
-== Option 2: Diode Rectifier + Buck Converter
-
-image::MODEL_three_ph_rect_buck.png[Circuit diagram, pdfwidth=100%]
-
-<<<
-== Option 2: Diode Rectifier + Buck Converter
-
-[cols="2*a", options="header"]
-|===
-|Advantages|Disadvantages
-|
-- Fast and accurate control of output is possible
-|
-- Requires capacitor & inductor
-- Many components
-|===
-
-<<<
-== Option 3: Single-phase Thyristor Rectifier (SCR)
-
-image::MODEL_three_ph_SCR.png[Circuit diagram, pdfwidth=100%]
-
-<<<
-== Option 3: Single-phase Thyristor Rectifier (SCR)
-
-[cols="2*a", options="header"]
-|===
-|Advantages|Disadvantages
-|
-- Fewer thyristors compared to three-phase (4 vs 6)
-|
-- Available output voltage is less compared to three-phase AC input
-- Still requires firing circuits for four thyristors
-- Firing control must be synchronized with input AC voltage
-|===
+image::Inspiration_Graphic.png[Inspiration!, pdfwidth=75%]
 
 <<<
 == Single-Phase Diac-Controlled Triac Rectifer
 
-.Circuit Diagram from Littlefuse Application Note AN1003
-image::Littlefuse_Diagram.png[Diagram from Littlefuse Application note, pdfwidth=50%]
+Advantages
 
-<<<
-== Single-Phase Diac-Controlled Triac Rectifer
-
-image::MODEL_triac_diac.png[Circuit diagram, pdfwidth=60%]
-
-<<<
-== Single-Phase Diac-Controlled Triac Rectifer
-
-// Recommendation from prof to WhatsApp group - add screenshot?
-
-[cols="2*a", options="header"]
-|===
-|Advantages|Disadvantages
-|
 - Circuit is very simple with few components (simplicity bonus!)
 - Single control circuit needed
 - Different from other groups in the past
-|
+- Recommended by prof. - practically guaranteed to work!!
+
+Disadvantages
+
+- "Snap on" at maximum firing angle
 - Introduction of feedback control difficult to incorporate
+
+<<<
+== Simulation Model
+
+image::{simulation_figs}MODEL_triac_diac.png[Circuit diagram, pdfwidth=60%]
+
+
+<<<
+== Simulation Results
+
+image::{simulation_figs}Figure_triac_diac_small_Rload.png[Small Resistive Load, pdfwidth=65%]
+
+<<<
+== Simulation Results
+
+image::{simulation_figs}Figure_triac_diac_output_vi.png[Motor Load, pdfwidth=65%]
+
+<<<
+== Input Side Simulation Summary
+
+[cols="9*^", options="header"]
+|===
+|Load
+|R~2~ +
+(kΩ)
+|V~IN~ +
+(V~RMS~)
+|I~IN~ +
+(A~RMS~)
+|P~IN~ +
+(W)
+|Q~IN~ +
+(var)
+|S~IN~ +
+(VA)
+|PF
+|I~IN~ +
+THD (%)
+
+|Starting
+|190
+|219.8
+|7.07
+|199.3
+|1541
+|1554
+|0.13
+|133.5
+
+|No Load
+|25
+|219.5
+|7.68
+|878.1
+|1439
+|1686
+|0.52
+|66.62
+
+|Kettle Load
+|20
+|218.8
+|17.64
+|2505
+|2936
+|3859
+|0.65
+|40.31
 |===
 
-<<<
-== Simulation Results
-
-image::Figure_triac_diac_small_Rload.png[Small Resistive Load, pdfwidth=65%]
+Input current THD is high, especially at high firing angle.
 
 <<<
-== Simulation Results
+== Output Side Simulation Summary
 
-image::Figure_triac_diac_output_vi.png[Motor Load, pdfwidth=65%]
+[cols="7*^", options="header"]
+|===
+|Load
+|V~OUT~ +
+(V~AVG~)
+|V~OUT~ +
+Ripple
+|I~OUT~ +
+(A~AVG~)
+|I~OUT~ +
+Ripple
+|P~OUT~ +
+(W)
+|Efficiency (%)
+
+|Starting
+|11.47
+|153.4
+|14.46
+|8.69
+|170.9
+|85.76
+
+|No Load
+|174.8
+|304.8
+|4.77
+|15.56
+|863
+|98.27
+
+|Kettle Load
+|175
+|307.1
+|13.45
+|30.2
+|2463
+|98.33
+|===
+
 
 <<<
-== Key Component Ratings
+== Simulation Key Diode Values
 
-Maximum component stress from simulation results
+[cols="5*^", options="header"]
+|===
+|Load
+|I~avg~ +
+(A)
+|I~RMS~ +
+(A)
+|V~MAX~ +
+(V)
+|P~Loss~ +
+(W)
 
-- Triac: V~max~ = 311 V, I~rms~ = 17.6 A
+|Starting
+|7.23
+|8.16
+|152.6
+|5.85
 
-- Diode Bridge: V~max~ = 306 V, I~rms~ = 12.5 A (per diode)
+|No Load
+|2.39
+|5.43
+|304
+|1.94
 
-- Resistors: All < 1/4 W. (But Littlefuse application note recommends 1/2 W for R~3~)
+|Kettle Load
+|6.7
+|12.49
+|306.3
+|5.52
+|===
 
-- Capacitors: < 60 V
+https://www.direnc.net/35a-1000v-kopru-diyot-lehimlemeye-uygun[Diode bridge, 1000V, 35A]
+
+image::35a-1000v-diode-bridge.jpg[align=left, pdfwidth=25%]
+
+<<<
+== Simulation Key Triac Values
+
+[cols="5*^", options="header"]
+|===
+|Load
+|I~avg~ +
+(A)
+|I~RMS~ +
+(A)
+|V~MAX~ +
+(V)
+|P~Loss~ +
+(W)
+
+|Starting
+|3.04
+|7.07
+|311.1
+|4.61
+
+|No Load
+|4.77
+|7.68
+|138.6
+|7.21
+
+|Kettle Load
+|12.84
+|17.64
+|128.8
+|19.57
+|===
+
+https://www.direnc.net/bta26-600--600v-25a-4-quadrant-logic-level-triac[Triac 600V, 25A]
+
+image::bta26-600-600v-25a-triac.jpg[align=left, pdfwidth=25%]
+
+<<<
+== Simulation Key Capacitor Values
+[cols="5*^", options="header"]
+|===
+|Load
+|C~1~ I~RMS~ +
+(A)
+|C~1~ V~MAX~ +
+(V)
+|C~2~ I~RMS~ +
+(A)
+|C~2~ V~MAX~ +
+(V)
+
+|Starting
+|0.95
+|42.67
+|2.39
+|36
+
+|No Load
+|1.64
+|59.79
+|2.38
+|36
+
+|Kettle Load
+|1.64
+|56.68
+|2.38
+|36
+|===
+
+< 60 V (But Littlefuse application note lists 400 V & 100 V)
+
+https://www.direnc.net/100nf400v-damla-tip-polyster-kondansator[Capacitor, polyester 100nF 400V] for C~1~ & C~2~
+
+image::100nf400v-capacitor.jpg[align=left, pdfwidth=20%]
+
+<<<
+== Simulation Key Resistor Values
+[cols="7*^", options="header"]
+|===
+|Load
+|R~1~ I~RMS~ +
+(mA)
+|R~1~ P +
+(mW)
+|R~2~ I~RMS~ +
+(mA)
+|R~2~ P +
+(mW)
+|R~3~ I~RMS~ +
+(mA)
+|R~3~ P +
+(mW)
+
+|Starting
+|1.04
+|1.08
+|1.04
+|205.3
+|0.82
+|10.05
+
+|No Load
+|1.77
+|3.12
+|1.77
+|78.09
+|1.03
+|15.82
+
+|Kettle Load
+|1.73
+|3
+|1.73
+|60.06
+|0.94
+|13.35
+|===
+
+All < 1/4 W. (But Littlefuse application note recommends 1/2 W for R~3~)
 
 <<<
 == Project Plan
@@ -135,6 +325,10 @@ Maximum component stress from simulation results
   * Add remaining touches like enclosure, PCB, etc
   
 <<<
-== Credit
+== Credits
 
 Nuclear explosion logo made by https://www.flaticon.com/authors/freepik[Freepik] from https://www.flaticon.com/[Flaticon.com]
+
+https://commons.wikimedia.org/wiki/File:Light_bulb_(yellow)_icon.svg[Idea Bulb]
+by Subhashish Panigrahi, derived from &quot;Light Bulb&quot; by Ian Mawle from The Noun Project.
+https://creativecommons.org/licenses/by-sa/3.0[CC BY-SA 3.0]

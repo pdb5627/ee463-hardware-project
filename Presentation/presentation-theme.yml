@@ -39,13 +39,14 @@ image:
 caption:
   align: center
 footer:
+  font-color: #aecee4ff
   height: 0.9in
   padding: [12, 0, 0, 0]
   line-height: 1
   vertical-align: top
   recto:
     left:
-      content: '{document-title}'
+      content: 'image:Graphics/explosion.png[width="25"] . . {document-title} . .'
     right:
       content: '{page-number} / {page-count}'
   verso:
