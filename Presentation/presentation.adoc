@@ -1,10 +1,13 @@
 = Blue Smoke Team Hardware Project Design
 Paul Brown; İbrahim Duru; Mustafa Şahin
 11 December 2019
-:titlepage:
+:notitle:
 :pdf-theme: presentation-theme.yml
 :table-stripes: even
 :imagesdir: ../Simulink_modeling/figs/
+
+// Title Slide
+image::../../Presentation/Title Slide.pdf[]
 
 == Topology Options
 
@@ -78,7 +81,7 @@ image::Littlefuse_Diagram.png[Diagram from Littlefuse Application note, pdfwidth
 <<<
 == Single-Phase Diac-Controlled Triac Rectifer
 
-image::MODEL_triac_diac.png[Circuit diagram, pdfwidth=65%]
+image::MODEL_triac_diac.png[Circuit diagram, pdfwidth=60%]
 
 <<<
 == Single-Phase Diac-Controlled Triac Rectifer
@@ -89,8 +92,9 @@ image::MODEL_triac_diac.png[Circuit diagram, pdfwidth=65%]
 |===
 |Advantages|Disadvantages
 |
-- Circuit is very simple with few components
+- Circuit is very simple with few components (simplicity bonus!)
 - Single control circuit needed
+- Different from other groups in the past
 |
 - Introduction of feedback control difficult to incorporate
 |===
@@ -124,8 +128,13 @@ Maximum component stress from simulation results
 - Complete bill of material
 - Procure components (https://direnc.net[Direnc.net] + Konya Sokak)
 - Build prototype
-- Test on increasing loads (load bank then motor)
+- Test on increasing loads (load bank => motor)
 - Troubleshoot & modify prototype as needed
 - Once working prototype is obtained, as time allows
   * Consider modifications for feedback in firing circuit
   * Add remaining touches like enclosure, PCB, etc
+  
+<<<
+== Credit
+
+Nuclear explosion logo made by https://www.flaticon.com/authors/freepik[Freepik] from https://www.flaticon.com/[Flaticon.com]

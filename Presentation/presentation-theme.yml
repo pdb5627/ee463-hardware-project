@@ -5,14 +5,15 @@ page:
   size: A5
 base:
   font-color: #333333
-  font-family: Helvetica
+#  font-family: Helvetica
   font-size: 14
   line-height-length: 17
   line-height: $base-line-height-length / $base-font-size
 vertical-spacing: $base-line-height-length
 heading:
-  font-family: Helvetica
-  font-color: #ba3925
+#  font-family: Helvetica
+#  font-color: #ba3925
+  font-color: #588abd
   h1-font-size: 18
   h2-font-size: 16
   h3-font-size: $base-font-size
@@ -37,17 +38,6 @@ image:
   width: 80%
 caption:
   align: center
-header:
-  height: 0.9in
-  padding: [0, 0, 12, 0]
-  line-height: 1
-  vertical-align: bottom
-  recto:
-    right:
-      content: '{document-title}'
-  verso:
-    right:
-      content: $header-recto-right-content
 footer:
   height: 0.9in
   padding: [12, 0, 0, 0]
@@ -55,7 +45,7 @@ footer:
   vertical-align: top
   recto:
     left:
-      content: ''
+      content: '{document-title}'
     right:
       content: '{page-number} / {page-count}'
   verso:
