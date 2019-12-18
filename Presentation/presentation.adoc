@@ -1,0 +1,344 @@
+= Blue Smoke Team Hardware Project Design
+Paul Brown; İbrahim Duru; Mustafa Şahin
+11 December 2019
+:notitle:
+:pdf-theme: presentation-theme.yml
+:table-stripes: even
+:imagesdir: Graphics
+:simulation_figs: ../../Simulink_modeling/figs/
+
+// Title Slide
+image::Title Slide.pdf[]
+
+== Topology Options Considered
+
+. Three-phase thyristor rectifier (SCR) 
+. Three-phase diode rectifier + buck converter
+. Single-phase thyristor rectifier (SCR)
+. Single-Phase Diac-Controlled Triac Rectifer
+
+<<<
+== Single-Phase Diac-Controlled Triac Rectifer
+
+image::Inspiration_Graphic.png[Inspiration!, pdfwidth=75%]
+
+<<<
+== Single-Phase Diac-Controlled Triac Rectifer
+
+Advantages
+
+- Circuit is very simple with few components (simplicity bonus!)
+- Single control circuit needed
+- Different from other groups in the past
+- Recommended by prof. - practically guaranteed to work!!
+
+Disadvantages
+
+- "Snap on" at maximum firing angle
+- Introduction of feedback control difficult to incorporate
+
+<<<
+== Simulation Model
+
+image::{simulation_figs}MODEL_triac_diac.png[Circuit diagram, pdfwidth=60%]
+
+
+<<<
+== Simulation Results
+
+image::{simulation_figs}Figure_triac_diac_small_Rload.png[Small Resistive Load, pdfwidth=65%]
+
+<<<
+== Simulation Results
+
+image::{simulation_figs}Figure_triac_diac_output_vi.png[Motor Load, pdfwidth=65%]
+
+<<<
+== Input Side Simulation Summary
+
+[cols="9*^", options="header"]
+|===
+|Load
+|R~2~ +
+(kΩ)
+|V~IN~ +
+(V~RMS~)
+|I~IN~ +
+(A~RMS~)
+|P~IN~ +
+(W)
+|Q~IN~ +
+(var)
+|S~IN~ +
+(VA)
+|PF
+|I~IN~ +
+THD (%)
+
+|Starting
+|190
+|219.8
+|7.07
+|199.3
+|1541
+|1554
+|0.13
+|133.5
+
+|No Load
+|25
+|219.5
+|7.68
+|878.1
+|1439
+|1686
+|0.52
+|66.62
+
+|Kettle Load
+|20
+|218.8
+|17.64
+|2505
+|2936
+|3859
+|0.65
+|40.31
+|===
+
+Input current THD is high, especially at high firing angle.
+
+<<<
+== Output Side Simulation Summary
+
+[cols="7*^", options="header"]
+|===
+|Load
+|V~OUT~ +
+(V~AVG~)
+|V~OUT~ +
+Ripple
+|I~OUT~ +
+(A~AVG~)
+|I~OUT~ +
+Ripple
+|P~OUT~ +
+(W)
+|Efficiency (%)
+
+|Starting
+|11.47
+|153.4
+|14.46
+|8.69
+|170.9
+|85.76
+
+|No Load
+|174.8
+|304.8
+|4.77
+|15.56
+|863
+|98.27
+
+|Kettle Load
+|175
+|307.1
+|13.45
+|30.2
+|2463
+|98.33
+|===
+
+
+<<<
+== Diode Selection
+
+[cols="5*^", options="header"]
+|===
+|Load
+|I~avg~ +
+(A)
+|I~RMS~ +
+(A)
+|V~MAX~ +
+(V)
+|P~Loss~ +
+(W)
+
+|Starting
+|7.23
+|8.16
+|152.6
+|5.85
+
+|No Load
+|2.39
+|5.43
+|304
+|1.94
+
+|Kettle Load
+|6.7
+|12.49
+|306.3
+|5.52
+|===
+
+https://www.direnc.net/35a-1000v-kopru-diyot-lehimlemeye-uygun[Diode bridge, 1000V, 35A]
+
+image::35a-1000v-diode-bridge.jpg[align=left, pdfwidth=25%]
+
+<<<
+== Triac Selection
+
+[cols="5*^", options="header"]
+|===
+|Load
+|I~avg~ +
+(A)
+|I~RMS~ +
+(A)
+|V~MAX~ +
+(V)
+|P~Loss~ +
+(W)
+
+|Starting
+|3.04
+|7.07
+|311.1
+|4.61
+
+|No Load
+|4.77
+|7.68
+|138.6
+|7.21
+
+|Kettle Load
+|12.84
+|17.64
+|128.8
+|19.57
+|===
+
+https://www.direnc.net/bta26-600--600v-25a-4-quadrant-logic-level-triac[Triac 600V, 25A]
+
+image::bta26-600-600v-25a-triac.jpg[align=left, pdfwidth=25%]
+
+<<<
+== Capacitor Selection
+[cols="5*^", options="header"]
+|===
+|Load
+|C~1~ I~RMS~ +
+(A)
+|C~1~ V~MAX~ +
+(V)
+|C~2~ I~RMS~ +
+(A)
+|C~2~ V~MAX~ +
+(V)
+
+|Starting
+|0.95
+|42.67
+|2.39
+|36
+
+|No Load
+|1.64
+|59.79
+|2.38
+|36
+
+|Kettle Load
+|1.64
+|56.68
+|2.38
+|36
+|===
+
+< 60 V (But Littlefuse application note lists 400 V & 100 V)
+
+https://www.direnc.net/100nf400v-damla-tip-polyster-kondansator[Capacitor, polyester 100nF 400V] for C~1~ & C~2~
+
+image::100nf400v-capacitor.jpg[align=left, pdfwidth=20%]
+
+<<<
+== Resistor Selection
+[cols="7*^", options="header"]
+|===
+|Load
+|R~1~ I~RMS~ +
+(mA)
+|R~1~ P +
+(mW)
+|R~2~ I~RMS~ +
+(mA)
+|R~2~ P +
+(mW)
+|R~3~ I~RMS~ +
+(mA)
+|R~3~ P +
+(mW)
+
+|Starting
+|1.04
+|1.08
+|1.04
+|205.3
+|0.82
+|10.05
+
+|No Load
+|1.77
+|3.12
+|1.77
+|78.09
+|1.03
+|15.82
+
+|Kettle Load
+|1.73
+|3
+|1.73
+|60.06
+|0.94
+|13.35
+|===
+
+All < 1/4 W. (But Littlefuse application note recommends 1/2 W for R~3~)
+
+<<<
+== Project Plan
+
+- Complete bill of material
+- Procure components (https://direnc.net[Direnc.net] + Konya Sokak)
+- Build prototype
+- Test on increasing loads (load bank => motor)
+- Troubleshoot & modify prototype as needed
+- Once working prototype is obtained, as time allows
+  * Consider modifications for feedback in firing circuit
+  * Add remaining touches like enclosure, PCB, etc
+  
+<<<
+== Feedback
+
+How can we incorporate feedback (e.g. to limit current during motor starting)?
+
+- Maybe use a TCA785 IC & some op amp circuit to modify voltage setpoint based on feedback?
+- Other ideas?
+
+What is your feedback for us?
+  
+<<<
+== Credits
+
+Nuclear explosion logo made by https://www.flaticon.com/authors/freepik[Freepik] from https://www.flaticon.com/[Flaticon.com]
+
+https://commons.wikimedia.org/wiki/File:Light_bulb_(yellow)_icon.svg[Idea Bulb]
+by Subhashish Panigrahi, derived from &quot;Light Bulb&quot; by Ian Mawle from The Noun Project.
+https://creativecommons.org/licenses/by-sa/3.0[CC BY-SA 3.0]

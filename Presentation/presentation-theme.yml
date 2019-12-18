@@ -1,0 +1,58 @@
+extends: default
+page:
+  layout: landscape
+  margin: [1in, 0.8in, 1in, 0.8in]
+  size: A5
+base:
+  font-color: #333333
+#  font-family: Helvetica
+  font-size: 14
+  line-height-length: 17
+  line-height: $base-line-height-length / $base-font-size
+vertical-spacing: $base-line-height-length
+heading:
+#  font-family: Helvetica
+#  font-color: #ba3925
+  font-color: #588abd
+  h1-font-size: 18
+  h2-font-size: 16
+  h3-font-size: $base-font-size
+  h4-font-size: $base-font-size
+  font-style: bold
+  line-height: 1.2
+  margin-bottom: $vertical-spacing
+blockquote: 
+  font-size: $base-font-size
+link:
+  font-color: #002FA7
+outline-list:
+  indent: $base-font-size * 1.5
+table:
+  font-size: 12
+  head:
+    background-color: #eeeeee
+  body:
+    stripe-background-color: $table-head-background-color
+image:
+  align: center
+  width: 80%
+caption:
+  align: center
+footer:
+  font-color: #aecee4ff
+  height: 0.9in
+  padding: [12, 0, 0, 0]
+  line-height: 1
+  vertical-align: top
+  recto:
+    left:
+      content: 'image:Graphics/explosion.png[width="25"] . . {document-title} . .'
+    right:
+      content: '{page-number} / {page-count}'
+  verso:
+    left:
+      content: $footer-recto-left-content
+    right:
+      content: $footer-recto-right-content
+
+

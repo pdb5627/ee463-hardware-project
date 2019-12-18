@@ -5,12 +5,13 @@ tstart = 0;
 tstop = 0.020;
 
 % Scenario list has description, alpha, and Ea for each of the scenarios
-% to be simulated. Ea assumes operation at Vt = 220 V.
+% to be simulated. Ea assumes operation at vd_nom.
 scenarios = { ...
     'Starting', '87', '0';
-    'No Load', '54.0', '218'; ...
-    'Kettle Load', '47.5', '212'; ...
-    'Rated Load', '47.2', '202'};
+    'No Load', '53', '171'; ...
+    'Kettle Load', '50', '164'; ...
+    'Rated Load', '36', '202'};
+vd_nom = [0, 175, 175, 220];
 
 VariableNames = {'Load', 'alpha', 'V_IN_RMS', 'I_IN_RMS', ...
     'P_IN', 'Q_IN', 'S_IN', 'PF', 'I_IN_THD_F'};
@@ -91,7 +92,7 @@ for n = 1:length(scenarios)
     display(TOUT.V_OUT_AVG(n), 'Average output voltage');
     % Check output voltage. If it's too far off, the calcs won't be
     % accurate.
-    if n > 1 && abs(TOUT.V_OUT_AVG(n) - 220) > 1
+    if n > 1 && abs(TOUT.V_OUT_AVG(n) - vd_nom(n)) > 1
         disp('Check firing angle!!');
         
     end

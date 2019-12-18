@@ -105,7 +105,7 @@ amount of friction, the total "no load" load is estimated as 700 W.
 Ia*Ea = 700 W  
 Ea = (700 W)/Ia  
 (700 W)/Ia = 175 V - Ia*(0.8 Ω)  
-700 W = (175 V/Ia - Ia^2 * (0.8 Ω)  
+700 W = (175 V)*Ia - Ia^2 * (0.8 Ω)  
 0 = 0.8*Ia^2 - 175*Ia + 700  
 Ia = (175 - sqrt(175^2 - 4*0.8*700)) / (2*0.8) = 4.1 A.  
 Ea = (700 W)/(4.1 A) = 171 V.
