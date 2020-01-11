@@ -1,7 +1,7 @@
 run_sim = [false, true];
 
 
-%% Circuit calculations
+% Circuit calculations
 %  Steady-State AC calculations to determine relative resistive & capacitive values
 %  Note that once the DIAC starts firing, the capacitor voltages rise
 %  somewhat, so it sustains firing at a higher potentiometer resistance
@@ -25,21 +25,21 @@ V2 = V1 - R3*Ic2;
 V = [Vs V1 V2]';
 display([abs(V)*sqrt(2) rad2deg(angle(V))], 'Control voltages (mag, angle)');
 
-%% Setup
+% Setup
 % Define window of time for plotting since some (negative) simulation time
 % is added for settling to steady state.
 tstart = 0;
-tstop = 0.020;
+tstop = 0.040;
 
 % Scenario list has description, alpha, and Ea for each of the scenarios
 % to be simulated. Ea assumes operation at vd_nom.
 scenarios = { ...
-    'Starting', '190e3', '0';
-    'No Load', '25e3', '171'; ...
-    'Kettle Load', '20e3', '164'};
+    'Starting', '137e3', '0';
+    'No Load', '21e3', '171'; ...
+    'Kettle Load', '17e3', '164'};
 vd_nom = [0, 175, 175];
 
-%% Open model. Same model for all cases
+% Open model. Same model for all cases
 model = 'triac_diac';
 open(model);
 % Save graphic of model
@@ -50,9 +50,9 @@ if run_sim(1)
     %  First run some cases with a small load, varying the potentiometer to see what range of output is possible.
     fig = figure(1);
     clf('reset');
-    r_var = 250e3 * [0.001 0.2 0.4 0.6 0.8 1.0 1.2 1.4];
+    r_var = 240e3 * [0.001 0.2 0.4 0.6 0.8 1.0];
     for n = 1:length(r_var)
-        set_param(strcat(model, '/R2'), 'Resistance', num2str(r_var(n)));
+        set_param(strcat(model, '/R1'), 'Resistance', num2str(r_var(n)));
         set_param(strcat(model, '/Ea'), 'Amplitude', '0');
         set_param(strcat(model, '/Za'), 'BranchType', 'R');
         set_param(strcat(model, '/Za'), 'Resistance', '100');
@@ -118,7 +118,7 @@ if run_sim(2)
     clf('reset');
     r_var = [];
     for n = 1:length(scenarios)
-        set_param(strcat(model, '/R2'), 'Resistance', scenarios{n, 2});
+        set_param(strcat(model, '/R1'), 'Resistance', scenarios{n, 2});
         set_param(strcat(model, '/Ea'), 'Amplitude', scenarios{n, 3});
         set_param(strcat(model, '/Za'), 'BranchType', 'RL');
         set_param(strcat(model, '/Za'), 'Resistance', '0.8');
@@ -136,6 +136,8 @@ if run_sim(2)
         Idiode = logsout.get('D1').Values.Diode_current.resample(tstart).append(getsampleusingtime(logsout.get('D1').Values.Diode_current, tstart, tstop));
         Vtriac = logsout.get('Vtriac').Values.resample(tstart).append(getsampleusingtime(logsout.get('Vtriac').Values, tstart, tstop));
         Itriac = logsout.get('Itriac').Values.resample(tstart).append(getsampleusingtime(logsout.get('Itriac').Values, tstart, tstop));
+        Vdiac = logsout.get('Vdiac').Values.resample(tstart).append(getsampleusingtime(logsout.get('Vdiac').Values, tstart, tstop));
+        Idiac = logsout.get('Idiac').Values.resample(tstart).append(getsampleusingtime(logsout.get('Idiac').Values, tstart, tstop));
         Vc1 = logsout.get('Vc1').Values.resample(tstart).append(getsampleusingtime(logsout.get('Vc1').Values, tstart, tstop));
         Ic1 = logsout.get('Ic1').Values.resample(tstart).append(getsampleusingtime(logsout.get('Ic1').Values, tstart, tstop));
         Vc2 = logsout.get('Vc2').Values.resample(tstart).append(getsampleusingtime(logsout.get('Vc2').Values, tstart, tstop));
@@ -192,9 +194,19 @@ if run_sim(2)
 
 
         figure(1);
+        hold on;
         plot_VI(Vl, Il, scenarios{n, 1});
+        
+        if n == 3
+           figure(2);
+           clf('reset');
+           plot_VI(Vdiac, Idiac, 'diac');
+           save_figs('triac_diac_control_v');
+           
+        end
 
     end
+    figure(1);
     save_figs('triac_diac_output_vi');
     
     save_table(TIN, 'triac_diac_summary_in', 'Simulation Summary (Input Side)');
